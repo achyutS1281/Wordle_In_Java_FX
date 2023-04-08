@@ -1,0 +1,18 @@
+{
+  "files": {
+    "src/main/java/wordle/Wordle.java": [
+      {
+        "id": "19e19970-7920-4227-abf1-bfd515fb4d5e",
+        "line": 111,
+        "version": 4369,
+        "index": 4025
+      },
+      {
+        "id": "113ed520-a841-4446-9ddf-01e87a76c1a1",
+        "line": 122,
+        "version": 4369,
+        "index": 4498
+      }
+    ]
+  }
+}

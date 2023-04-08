@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<BorderPane prefHeight="1000" prefWidth="1100" styleClass="shadow-pane" stylesheets="@../css/application.css"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="wordle.MainViewController">
+    <center>
+        <VBox id="dragTarget" spacing="10" styleClass="background-pane">
+            <HBox alignment="CENTER">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <HBox>
+                    <ImageView>
+                        
+                    </ImageView>
+                </HBox>
+                <HBox id="right-icons" alignment="CENTER_RIGHT" spacing="10" HBox.hgrow="ALWAYS">
+                    <Button onAction="#handleHint"></Button>
+                    <Label id="points" text="00000"/>
+                    <Button onAction="#handleFullScreen"/>
+                    <Button onAction="#handleSettingsButtonClicked" styleClass="settings-button"/>
+                    <Button onAction="#handleExitButtonClicked" styleClass="exit-button"/>
+                </HBox>
+            </HBox>
+
+            <HBox alignment="CENTER">
+              <children>  
+                <Label id="title_text" alignment="CENTER" styleClass="title_text" text="WORDLE BUT HARDER"/>
+              </children>
+            </HBox>
+            <HBox alignment="CENTER">
+                <Label fx:id="usedLetters" text="Used Letters: " styleClass="used" />
+            </HBox>
+            <HBox alignment="CENTER">
+              <VBox id="b_1-1" styleClass="letter">
+                
+                <children>
+                  <Label id="l_1-1" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_1-2" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_1-2" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_1-3" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_1-3" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_1-4" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_1-4" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_1-5" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_1-5" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+            </HBox>
+            <VBox styleClass="spaceVert"></VBox>
+            <HBox alignment="CENTER">
+              <VBox id="b_2-1" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_2-1" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_2-2" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_2-2" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_2-3" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_2-3" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_2-4" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_2-4" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_2-5" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_2-5" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+            </HBox>
+            <VBox styleClass="spaceVert"></VBox>
+            <HBox alignment="CENTER">
+              <VBox id="b_3-1" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_3-1" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_3-2" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_3-2" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_3-3" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_3-3" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_3-4" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_3-4" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_3-5" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_3-5" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+            </HBox>
+            <VBox styleClass="spaceVert"></VBox>
+            <HBox alignment="CENTER">
+              <VBox id="b_4-1" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_4-1" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_4-2" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_4-2" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_4-3" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_4-3" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_4-4" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_4-4" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_4-5" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_4-5" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+            </HBox>
+            <VBox styleClass="spaceVert"></VBox>
+            <HBox alignment="CENTER">
+              <VBox id="b_5-1" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_5-1" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_5-2" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_5-2" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_5-3" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_5-3" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_5-4" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_5-4" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+              <VBox styleClass="space"></VBox>
+              <VBox id="b_5-5" styleClass="letter">
+                <padding>
+                    <Insets top="2" right="5"/>
+                </padding>
+                <children>
+                  <Label id="l_5-5" alignment="center" text="" styleClass="inLetter"/>  
+                </children>
+              </VBox>
+            </HBox>
+
+
+            <ScrollPane styleClass="transparent-background" fitToWidth="true"
+                        fitToHeight="true" VBox.vgrow="ALWAYS">
+                <StackPane id="contentContainer">
+
+                    <Button fx:id="r" alignment="CENTER" onAction="#handleReset" stylesheets="@../css/application.css" styleClass="l">RESET</Button>
+                </StackPane>
+                
+            </ScrollPane>
+            
+        </VBox>
+    </center>
+</BorderPane>
