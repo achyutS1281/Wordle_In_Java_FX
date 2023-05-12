@@ -1,8 +1,5 @@
 package wordle;
 
-import javafx.beans.InvalidationListener;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 
 import javafx.application.Application;
@@ -22,13 +19,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.StageStyle;
 
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import javafx.scene.control.Alert.AlertType;
 
@@ -38,6 +28,7 @@ public class Wordle extends Application {
   private double xOffset;
   private double yOffset;
   private boolean cont;
+  protected static boolean ai = false;
   private static String[] args;
   protected static int currentLetterRow = 0;
   protected static int currentLetterCol = -1;
@@ -62,7 +53,12 @@ public class Wordle extends Application {
     s = primaryStage;
     Parent root = FXMLLoader.load(getClass().getResource("/fxml/MainView.fxml"));
     p=root;
-    g = new GameManager();
+    if(ai){
+      g = new GameManager(ai);
+    }else{
+      g = new GameManager();
+    }
+
     root.setOnMousePressed(event -> {
       xOffset = event.getSceneX();
       yOffset = event.getSceneY();
@@ -107,7 +103,12 @@ public class Wordle extends Application {
         if (k.getCode() == KeyCode.ENTER) {
           currentLetterCol = -1;
 
-          String[] lStats = g.registerGuess(currGuess.toLowerCase());
+          String[] lStats = new String[0];
+          try {
+            lStats = g.registerGuess(currGuess.toLowerCase());
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
           if (lStats == null) {
             for (int i = 0; i < 5; i++) {
               String id = LETTER_IDS[currentLetterRow][i];
@@ -332,8 +333,10 @@ public class Wordle extends Application {
     l.requestFocus();
   }
 
-  public static void run(String[] a) {
+  public static void run(String[] a, boolean chatai) {
     args = a;
+    ai = chatai;
+    System.out.println("AI: "+ai);
     launch(a);
   }
 

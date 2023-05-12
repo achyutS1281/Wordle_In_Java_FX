@@ -7,11 +7,17 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 import java.io.*;
+
+import com.google.gson.Gson;
+import okhttp3.*;
 public class GameManager{
     private int numGuesses;
     protected String word;
+    protected static boolean ai;
     private boolean isWon = false;
     private ArrayList<Guess> guesses = new ArrayList<Guess>();
+    private boolean chatAi;
+    private static String model = "text-davinci-003";
     protected  ArrayList<String> words = new ArrayList<String>();
     protected  ArrayList<String> words_hard = new ArrayList<String>();
     protected ArrayList<String> dictionary = new ArrayList<String>();
@@ -19,6 +25,8 @@ public class GameManager{
     protected String mode;
     protected int points;
     protected String definition;
+    protected String API_KEY = "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";
+    private static final String API_URL = "https://api.openai.com/v1/completions";
     public GameManager() throws Exception{
 
       File wordList = new File("src/main/resources/txt/words.txt");
@@ -111,6 +119,68 @@ public class GameManager{
       br.close();
       br1.close();
     }
+    public GameManager(boolean ai) throws Exception{
+        this.ai = ai;
+        System.out.println("This"+this.ai);
+        BufferedReader modeBr = new BufferedReader(new FileReader(new File("src/main/resources/txt/currMode.txt")));
+        String modeS = modeBr.readLine();
+        mode = modeS;
+        if(modeS.equals("hard")){
+            word = generateWordAiHard();
+        }else{
+            word = generateWordAI();
+        }
+
+        definition = definitionSearch(word);
+        System.out.println(word+": "+definition);
+
+
+
+    }
+
+    private String definitionSearch(String word) throws IOException {
+        String prompt = "Give me teh definition of "+word;
+        String responseBody = AIPrompter(prompt);
+        return responseBody;
+    }
+
+    public String generateWordAI() throws IOException {
+        String prompt = "Give me a 5 letter Wordle Word of medium difficulty";
+        String responseBody = AIPrompter(prompt);
+        return responseBody.substring(1, 6);
+    }
+
+    public String generateWordAiHard() throws IOException {
+        String prompt = "Give me a 5 letter Wordle Word of very hard difficulty";
+        String responseBody = AIPrompter(prompt);
+        return responseBody.substring(1, 6);
+    }
+    public String AIPrompter(String prompt) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        MediaType mediaType = MediaType.parse("application/json");
+
+        RequestBody body = RequestBody.create(mediaType, "{\"prompt\": \"" + prompt + "\", \"model\": \"" + model + "\"}");
+
+        Request request = new Request.Builder()
+                .url(API_URL)
+                .post(body)
+                .addHeader("Authorization", "Bearer " + API_KEY)
+                .addHeader("Content-Type", "application/json")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        String responseBody = response.body().string();
+        System.out.println(responseBody);
+        Gson gson = new Gson();
+        ChatGPTResponse responseGPT = gson.fromJson(responseBody, ChatGPTResponse.class);
+        for (ChatGPTCompletion completion : responseGPT.choices) {
+            System.out.println(completion.text);
+        }
+
+        return responseGPT.choices[0].text;
+    }
+
+
     public String generateWord(){
 
       Random r = new Random();
@@ -156,10 +226,12 @@ public class GameManager{
       }
       System.out.println(word);
     }
-    public String[] registerGuess(String guess){
+    public String[] registerGuess(String guess) throws IOException {
       Guess temp = new Guess(guess, word);
-
-      if(!found(0, dictionary.size()-1, guess)){
+      System.out.print("Guess Ai: "+ai);
+      System.out.println(AIPrompter("True or false: "+guess+" is a real word").substring(0, 5).toLowerCase());
+      System.out.print(AIPrompter("True or false: "+guess+" is a real word").substring(0, 5).toLowerCase().equals("false"));
+      if(!found(0, dictionary.size()-1, guess)||(ai&&AIPrompter("True or false: "+guess+" is a real word").substring(0, 5).toLowerCase().equals("false"))){
         return null;
       }
       String[] letterStats = new String[guess.length()];
@@ -296,7 +368,7 @@ public class GameManager{
 
     }
     public static void startApplication(String[] args){
-      Wordle.run(args);
+      Wordle.run(args, ai);
     }
 
     public void runSound(String sound) {
@@ -313,5 +385,15 @@ public class GameManager{
       } catch (LineUnavailableException e) {
         e.printStackTrace();
       }
+    }
+    private static class ChatGPTResponse {
+        private ChatGPTCompletion[] choices;
+    }
+
+    private static class ChatGPTCompletion {
+        private String text;
+        private int index;
+        private Object logprobs;
+        private String finish_reason;
     }
 }

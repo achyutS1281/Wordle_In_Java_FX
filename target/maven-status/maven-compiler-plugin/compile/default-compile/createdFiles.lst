@@ -1,8 +1,10 @@
+wordle\GameManager$ChatGPTResponse.class
 wordle\Wordle.class
 wordle\MainViewController.class
 wordle\Main.class
 wordle\GameManager.class
 wordle\MainViewController$Order.class
+wordle\GameManager$ChatGPTCompletion.class
 wordle\Guess.class
 wordle\Wordle$1.class
 wordle\DictionaryTester.class

@@ -47,8 +47,15 @@ public class MainViewController implements Initializable {
            String s = "";
             if(newValue.equals(1.0)&&!manip){
                Wordle.g.curr = Wordle.g.words_hard;
-               Wordle.g.generateNewWord();
-
+               if(Wordle.g.ai) {
+                   try {
+                       Wordle.g.word = Wordle.g.generateWordAiHard();
+                   } catch (IOException e) {
+                       throw new RuntimeException(e);
+                   }
+               }else {
+                   Wordle.g.generateNewWord();
+               }
                 try {
                     for(int i = 0; i<10; i++) {
                         this.l1.setText("Hard");
@@ -64,7 +71,15 @@ public class MainViewController implements Initializable {
                 }
            }else if(newValue.equals(0.0)&&!manip){
                Wordle.g.curr = Wordle.g.words;
-               Wordle.g.generateNewWord();
+                if(Wordle.g.ai) {
+                    try {
+                        Wordle.g.word = Wordle.g.generateWordAiHard();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }else {
+                    Wordle.g.generateNewWord();
+                }
                 try {
                     for(int i = 0; i<10; i++) {
                         this.l1.setText("Easy");
