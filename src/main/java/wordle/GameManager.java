@@ -98,7 +98,7 @@ public class GameManager{
                 if(inputLine.contains("class=\"one-click-content css-nnyc96 e1q3nk1v1\"")){
                     String className = "class=\"one-click-content css-nnyc96 e1q3nk1v1\"";
                     inputLine = inputLine.substring(inputLine.indexOf(className)+className.length());
-                    definition = inputLine.substring(1, inputLine.indexOf("<")-1);
+                    definition = inputLine.substring(0, inputLine.indexOf("<")-1);
                     System.out.println(definition);
                     break;
                 }
@@ -268,12 +268,21 @@ public class GameManager{
     }
     public String[] registerGuess(String guess) throws IOException {
       Guess temp = new Guess(guess, word);
-      System.out.print("Guess Ai: "+ai);
-      System.out.println(AIPrompter("True or false: "+guess+" is a real word").substring(0, 5).toLowerCase());
-      System.out.print(AIPrompter("True or false: "+guess+" is a real word").substring(0, 5).toLowerCase().equals("false"));
-      if(!found(0, dictionary.size()-1, guess)||(ai&&AIPrompter("True or false: "+guess+" is a real word").substring(0, 5).toLowerCase().equals("false"))){
-        return null;
+      if(ai){
+          System.out.print("Guess Ai: "+ai);
+          System.out.println(AIPrompter("True or false: "+guess+" is a real word").substring(0, 5).toLowerCase());
+          System.out.print(AIPrompter("True or false: "+guess+" is a real word").substring(0, 5).toLowerCase().equals("false"));
+          if((ai&&AIPrompter("True or false: "+guess+" is a real word").substring(0, 5).toLowerCase().equals("false"))||!found(0, dictionary.size()-1, guess)){
+              return null;
+          }
       }
+      else{
+          if(!found(0, dictionary.size()-1, guess)){
+              return null;
+          }
+      }
+
+
       String[] letterStats = new String[guess.length()];
       guesses.add(temp);
       System.out.println(temp.isCorrect(word));
