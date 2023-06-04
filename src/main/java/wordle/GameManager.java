@@ -17,7 +17,7 @@ public class GameManager{
     private boolean isWon = false;
     private ArrayList<Guess> guesses = new ArrayList<Guess>();
     private boolean chatAi;
-    private static String model = "text-davinci-003";
+    private static String model = "gpt-3.5-turbo-0301";
     protected  ArrayList<String> words = new ArrayList<String>();
     protected  ArrayList<String> words_hard = new ArrayList<String>();
     protected ArrayList<String> dictionary = new ArrayList<String>();
@@ -25,7 +25,7 @@ public class GameManager{
     protected String mode;
     protected int points;
     protected String definition;
-    protected String API_KEY = "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";
+    protected String API_KEY = "";
     private static final String API_URL = "https://api.openai.com/v1/completions";
     public GameManager() throws Exception{
 
@@ -122,6 +122,9 @@ public class GameManager{
     public GameManager(boolean ai) throws Exception{
         this.ai = ai;
         System.out.println("This"+this.ai);
+        System.out.println("Paste API Key here: ");
+        Scanner s = new Scanner(System.in);
+        this.API_KEY = s.nextLine();
         BufferedReader modeBr = new BufferedReader(new FileReader(new File("src/main/resources/txt/currMode.txt")));
         String modeS = modeBr.readLine();
         mode = modeS;
@@ -170,9 +173,46 @@ public class GameManager{
 
         Response response = client.newCall(request).execute();
         String responseBody = response.body().string();
-        System.out.println(responseBody);
+
         Gson gson = new Gson();
         ChatGPTResponse responseGPT = gson.fromJson(responseBody, ChatGPTResponse.class);
+        int counter = 0;
+        while(responseGPT.choices == null){
+
+            if(responseBody.contains("insufficient_quota")){
+                try{
+                    System.out.println("Waiting for quota to refresh");
+                    Thread.currentThread().sleep(60000);
+                    Response responseRetry = client.newCall(request).execute();
+                    String responseBodyRetry = responseRetry.body().string();
+                    System.out.println(responseBodyRetry);
+                    Gson gsonRetry = new Gson();
+                    responseGPT = gsonRetry.fromJson(responseBody, ChatGPTResponse.class);
+                }catch(InterruptedException i){
+                    System.out.print(i);
+                }
+            } else if (responseBody.toLowerCase().contains("invalid")) {
+                System.out.println("You provided some invalid parameters, most likely the API key... Please reinput your API key here: ");
+                Scanner s = new Scanner(System.in);
+                String str;
+
+                str = s.nextLine();
+                this.API_KEY = str;
+                Request requestRetry = new Request.Builder()
+                        .url(API_URL)
+                        .post(body)
+                        .addHeader("Authorization", "Bearer " + str)
+                        .addHeader("Content-Type", "application/json")
+                        .build();
+
+                Response responseRetry = client.newCall(requestRetry).execute();
+                String responseBodyRetry = responseRetry.body().string();
+
+                Gson gsonRetry = new Gson();
+                responseGPT = gsonRetry.fromJson(responseBodyRetry, ChatGPTResponse.class);
+                continue;
+            }
+        }
         for (ChatGPTCompletion completion : responseGPT.choices) {
             System.out.println(completion.text);
         }

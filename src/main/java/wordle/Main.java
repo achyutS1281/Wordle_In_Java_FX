@@ -86,6 +86,10 @@ public class Main {
 
 
   }
+  public static boolean wait(int timeMillis) throws InterruptedException{
+    wait(timeMillis);
+    return true;
+  }
 
 
 
